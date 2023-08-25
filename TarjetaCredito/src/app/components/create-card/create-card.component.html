@@ -4,7 +4,14 @@
     <form [formGroup]="form" (ngSubmit)="crearTarjeta()">
       <div class="input-group mb-3">
         <span class="input-group-text"
-          ><i class="fa-regular fa-circle-user"></i
+          ><i
+            class="fa-regular fa-circle-user"
+            [class.valid-icon]="this.form.get('titular')?.valid"
+            [class.invalid-icon]="
+              this.form.get('titular')?.invalid &&
+              this.form.get('titular')?.touched
+            "
+          ></i
         ></span>
         <input
           type="text"
@@ -15,7 +22,14 @@
       </div>
       <div class="input-group mb-3">
         <span class="input-group-text"
-          ><i class="fa-regular fa-credit-card"></i
+          ><i
+            class="fa-regular fa-credit-card"
+            [class.valid-icon]="this.form.get('numeroTarjeta')?.valid"
+            [class.invalid-icon]="
+              this.form.get('numeroTarjeta')?.invalid &&
+              this.form.get('numeroTarjeta')?.touched
+            "
+          ></i
         ></span>
         <input
           type="text"
@@ -29,7 +43,14 @@
         <div class="col-lg-7">
           <div class="input-group input-group-lg mb-3">
             <span class="input-group-text">
-              <i class="fas fa-calendar-alt"></i>
+              <i
+                class="fas fa-calendar-alt"
+                [class.valid-icon]="this.form.get('fechaExpiracion')?.valid"
+                [class.invalid-icon]="
+                  this.form.get('fechaExpiracion')?.invalid &&
+                  this.form.get('fechaExpiracion')?.touched
+                "
+              ></i>
             </span>
             <input
               type="text"
@@ -43,7 +64,13 @@
         <div class="col-lg-5">
           <div class="input-group input-group-lg mb-3">
             <span class="input-group-text">
-              <i class="fas fa-key"></i>
+              <i
+                class="fas fa-key"
+                [class.valid-icon]="this.form.get('cvv')?.valid"
+                [class.invalid-icon]="
+                  this.form.get('cvv')?.invalid && this.form.get('cvv')?.touched
+                "
+              ></i>
             </span>
             <input
               type="password"
@@ -56,7 +83,11 @@
         </div>
       </div>
       <div class="d-grid gap-2">
-        <button class="btn btn-warning btn-lg" type="submit">
+        <button
+          [disabled]="form.invalid"
+          class="btn btn-warning btn-lg"
+          type="submit"
+        >
           <i class="fas fa-database"></i> &nbsp; Aceptar
         </button>
       </div>
