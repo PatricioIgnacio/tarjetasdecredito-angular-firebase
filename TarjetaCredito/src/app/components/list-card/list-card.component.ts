@@ -9,7 +9,7 @@ import { CardService } from 'src/app/services/card.service';
   styleUrls: ['./list-card.component.css'],
 })
 export class ListCardComponent implements OnInit {
-  targetList: CreditCard[] = [];
+  cardList: CreditCard[] = [];
 
   constructor(
     private _tarjetaService: CardService,
@@ -22,9 +22,9 @@ export class ListCardComponent implements OnInit {
 
   obtenerTarjetas() {
     this._tarjetaService.obtenerTarjetas().subscribe((doc: any) => {
-      this.targetList = [];
+      this.cardList = [];
       doc.forEach((element: any) => {
-        this.targetList.push({
+        this.cardList.push({
           id: element.payload.doc.id,
           ...element.payload.doc.data(),
         });
