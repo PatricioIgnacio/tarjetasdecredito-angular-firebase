@@ -43,4 +43,8 @@ export class ListCardComponent implements OnInit {
         console.log(error);
       });
   }
+
+  editarTarjeta(tarjeta: CreditCard) {
+    this._tarjetaService.addTarjetaEdit(tarjeta);
+  }
 }
