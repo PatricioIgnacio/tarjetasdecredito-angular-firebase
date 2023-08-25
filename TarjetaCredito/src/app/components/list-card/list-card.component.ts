@@ -1,10 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { CreditCard } from 'src/app/models/CreditCard';
+import { CardService } from 'src/app/services/card.service';
 
 @Component({
   selector: 'app-list-card',
   templateUrl: './list-card.component.html',
-  styleUrls: ['./list-card.component.css']
+  styleUrls: ['./list-card.component.css'],
 })
-export class ListCardComponent {
+export class ListCardComponent implements OnInit {
+  targetList: CreditCard[] = [];
 
+  constructor(
+    private _tarjetaService: CardService,
+    private toastr: ToastrService
+  ) {}
+
+  ngOnInit(): void {
+    this.obtenerTarjetas();
+  }
+
+  obtenerTarjetas() {
+    this._tarjetaService.obtenerTarjetas().subscribe((doc: any) => {
+      this.targetList = [];
+      doc.forEach((element: any) => {
+        this.targetList.push({
+          id: element.payload.doc.id,
+          ...element.payload.doc.data(),
+        });
+      });
+    });
+  }
+
+  eliminarTarjeta(id: any) {
+    this._tarjetaService
+      .eliminarTarjeta(id)
+      .then(() => {
+        this.toastr.error('Tarjeta eliminada con éxito', 'Registro eliminado');
+      })
+      .catch((error: any) => {
+        this.toastr.error('Ocurrio un error', 'Error');
+        console.log(error);
+      });
+  }
 }

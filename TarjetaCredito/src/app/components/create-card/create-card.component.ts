@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { CreditCard } from 'src/app/models/CreditCard';
-import { TarjetService } from 'src/app/services/tarjet.service';
+import { CardService } from 'src/app/services/card.service';
 
 @Component({
   selector: 'app-create-card',
@@ -15,7 +15,7 @@ export class CreateCardComponent {
 
   constructor(
     private fb: FormBuilder,
-    private _tarjetaService: TarjetService,
+    private _tarjetaService: CardService,
     private toastr: ToastrService
   ) {
     this.form = this.fb.group({
