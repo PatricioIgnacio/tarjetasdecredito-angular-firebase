@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { CreditCard } from 'src/app/models/CreditCard';
+import { TarjetService } from 'src/app/services/tarjet.service';
 
 @Component({
   selector: 'app-create-card',
@@ -8,8 +11,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CreateCardComponent {
   form: FormGroup;
+  loading = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private _tarjetaService: TarjetService,
+    private toastr: ToastrService
+  ) {
     this.form = this.fb.group({
       titular: ['', Validators.required],
       numeroTarjeta: [
@@ -32,6 +40,32 @@ export class CreateCardComponent {
   }
 
   crearTarjeta() {
-    console.log(this.form);
+    const card: CreditCard = {
+      titular: this.form.value.titular,
+      numeroTarjeta: this.form.value.numeroTarjeta,
+      fechaExpiracion: this.form.value.fechaExpiracion,
+      cvv: this.form.value.cvv,
+      fechaCreacion: new Date(),
+      fechaActualizacion: new Date(),
+    };
+
+    this.loading = true;
+
+    this._tarjetaService.guardarTarjeta(card).then(
+      () => {
+        this.loading = false;
+        console.log('tarjeta registrada');
+        this.toastr.success(
+          'Tarjeta registrada correctamente',
+          'Tarjeta registrada'
+        );
+        this.form.reset();
+      },
+      (error) => {
+        this.loading = false;
+        this.toastr.error('Ocurrio un error', 'Error');
+        console.log(error);
+      }
+    );
   }
 }
